@@ -1,7 +1,46 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-char* shl_read_loop() {
-  return "";
+#define EXIT_FAILURE 1
+#define SHL_TOK_BUFSIZE 1024
+
+char* shl_read_line() {
+  int buffer_size = SHL_TOK_BUFSIZE;
+
+  int position = 0;
+  char* buffer = malloc(sizeof(char) * buffer_size);
+
+  int c;
+
+  if (!buffer) {
+    fprintf(stderr, "shl: allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  while (1) {
+    c = getchar();
+
+    if (c == EOF || c == '\n') {
+      buffer[position] = '\0';
+      printf("buffer: %s\n", buffer);
+      printf("position: %d\n", position);
+      return buffer;
+    }
+    else {
+      buffer[position] = c;
+    }
+
+    position++;
+
+    if (position >= buffer_size) {
+      buffer_size += SHL_TOK_BUFSIZE;
+      buffer = realloc(buffer, buffer_size);
+      if (!buffer) {
+        fprintf(stderr, "shl: allocation error\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
 }
 
 void shl_loop(void) {
@@ -11,7 +50,12 @@ void shl_loop(void) {
 
   do {
     printf("> ");
-    line = shl_read_loop();
+    line = shl_read_line();
+    // args = shl_split_line(line);
+    // status = shl_execute(args);
+
+    free(line);
+    free(args);
   }
   while (status);
 }
