@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/shl_loop.h"
-#include "../include/shl_io.h"
-#include "../include/shl_utils.h"
+#include "shl_loop.h"
+#include "shl_io.h"
+#include "shl_utils.h"
 
 void shl_loop(void) {
   char *line;

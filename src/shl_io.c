@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/shl_io.h"
-#include "../include/shl_utils.h"
+#include "shl_io.h"
+#include "shl_utils.h"
 
 char* shl_read_line() {
   int buffer_size = SHL_TOK_BUFSIZE;
