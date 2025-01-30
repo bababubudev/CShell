@@ -2,16 +2,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "shl_utils.h"
 
 char *shl_read_line() {
-  int buffer_size = SHL_TOK_BUFSIZE;
-
-  int position = 0;
+  int buffer_size = SHL_TOK_BUFSIZE, position = 0;
   char *buffer = malloc(sizeof(char) * buffer_size);
 
-  int c;
+  int character;
 
   if (!buffer) {
     fprintf(stderr, "shl: allocation error\n");
@@ -19,17 +18,14 @@ char *shl_read_line() {
   }
 
   while (1) {
-    c = getchar();
+    character = getchar();
 
-    if (c == EOF || c == '\n') {
+    if (character == EOF || character == '\n') {
       buffer[position] = '\0';
-
-      printf("buffer: %s\n", buffer);
-      printf("position: %d\n", position);
-
       return buffer;
-    } else {
-      buffer[position] = c;
+    }
+    else {
+      buffer[position] = character;
     }
 
     position++;
@@ -44,4 +40,37 @@ char *shl_read_line() {
       }
     }
   }
+}
+
+char **shl_split_line(char *line) {
+  int buffer_size = SHL_TOK_ARR_BUFSIZE, position = 0;
+  char **parsed_tokens = malloc(sizeof(char *) * buffer_size);
+
+  char *token;
+
+  if (!parsed_tokens) {
+    fprintf(stderr, "shl: allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  token = strtok(line, SHL_TOK_ARR_DELIM);
+  while (token != NULL) {
+    parsed_tokens[position] = token;
+    position++;
+
+    if (position >= buffer_size) {
+      buffer_size += SHL_TOK_ARR_BUFSIZE;
+      parsed_tokens = realloc(parsed_tokens, sizeof(char *) * buffer_size);
+
+      if (!parsed_tokens) {
+        fprintf(stderr, "shl: allocation error\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+
+    token = strtok(NULL, SHL_TOK_ARR_DELIM);
+  }
+
+  parsed_tokens[position] = NULL;
+  return parsed_tokens;
 }

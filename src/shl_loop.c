@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "shl_io.h"
+#include "shl_launch.h"
 #include "shl_utils.h"
 
 void shl_loop(void) {
@@ -16,13 +17,13 @@ void shl_loop(void) {
     printf("> ");
     line = shl_read_line();
 
-    if (strcmp(line, "exit") == 0) {
+    if (is_exit_command(line) == 0) {
       status = 0;
       break;
     }
 
-    // args = shl_split_line(line);
-    // status = shl_execute(args);
+    args = shl_split_line(line);
+    status = shl_launch(args);
 
     free(line);
     free(args);

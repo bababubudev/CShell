@@ -55,4 +55,4 @@ After building, run the shell:
 ```
 
 The shell will present a prompt (`>`) where you can enter commands. Currently supported commands:
-- `exit`: Exits the shell
+- `exit, quit, q`: Exits the shell
