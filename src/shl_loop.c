@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "shl_execute.h"
 #include "shl_io.h"
-#include "shl_launch.h"
 #include "shl_utils.h"
 
 void shl_loop(void) {
@@ -23,7 +23,7 @@ void shl_loop(void) {
     }
 
     args = shl_split_line(line);
-    status = shl_launch(args);
+    status = shl_execute(args);
 
     free(line);
     free(args);
