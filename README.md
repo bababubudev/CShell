@@ -1,49 +1,82 @@
-# CShell
+# C Shell
 
 ## Overview
 
-C Shell is a basic shell program that provides a command-line interface for executing commands. It is built using C and uses CMake as its build system.
+C Shell is a lightweight, custom-built shell program implemented in C. It provides a simple command-line interface with built-in and custom commands, designed to be a learning project demonstrating shell implementation techniques.
 
-## Building
+## Features
 
-### Prerequisites
+- Custom command execution
+- Built-in commands:
+  - `cd`: Change directory
+  - `exit` (aliases: `q`, `quit`): Exit the shell
+- Custom commands:
+  - `help`: Display available commands
+  - `clear`: Clear the terminal screen
+  - `toggledir`: Toggle directory display in prompt
+  - `setclr`: Set terminal foreground color
+  - `greet`: Display a welcome message
+
+## Color Customization
+
+The shell supports color customization with the `setclr` command:
+- Available colors:
+  - 0/default
+  - 1/green
+  - 2/blue
+  - 3/yellow
+  - 4/white
+  - 5/grey
+
+## Prerequisites
 
 - CMake (version 3.10 or higher)
-- C compiler
-- C standard library
+- C compiler with C99 support
+- POSIX-compatible system (Linux, macOS) or MinGW for Windows
 
-### Build Instructions
+## Build Instructions
 
-1. Create a build directory:
+### Linux/macOS
+
 ```bash
 mkdir build && cd build
-```
-
-2. Generate build files:
-```bash
 cmake ..
-```
-
-3. Build the project:
-```bash
 make
 ```
 
-The executable `sea_shell` will be created in the build directory.
+### Windows (MinGW)
+
+```bash
+mkdir build && cd build
+cmake -G "MinGW Makefiles" ..
+mingw32-make
+```
 
 ## Project Structure
 
 ```
 sea_shell/
 ├── include/
-│   ├── shl_io.h      - Input/output operations
-│   ├── shl_loop.h    - Main shell loop
-│   └── shl_utils.h   - Utility definitions
+│   ├── builtin_cmd.h     - Built-in command definitions
+│   ├── custom_cmd.h      - Custom command definitions
+│   ├── shl_execute.h     - Command execution logic
+│   ├── shl_init.h        - Shell initialization
+│   ├── shl_io.h          - Input/output handling
+│   ├── shl_launch.h      - Process launching
+│   ├── shl_loop.h        - Main shell loop
+│   ├── shl_utils.h       - Utility functions
+│   └── shl_init.h        - Shell settings management
 ├── src/
-│   ├── main.c        - Entry point
-│   ├── shl_io.c      - Input handling implementation
-│   └── shl_loop.c    - Shell loop implementation
-└── CMakeLists.txt    - CMake build configuration
+│   ├── main.c            - Program entry point
+│   ├── builtin_cmd.c     - Built-in command implementations
+│   ├── custom_cmd.c      - Custom command implementations
+│   ├── shl_execute.c     - Command execution implementation
+│   ├── shl_init.c        - Shell initialization logic
+│   ├── shl_io.c          - Input/output implementation
+│   ├── shl_launch.c      - Process launching implementation
+│   ├── shl_loop.c        - Shell loop implementation
+│   └── shl_utils.c       - Utility function implementations
+└── CMakeLists.txt        - CMake build configuration
 ```
 
 ## Usage
@@ -54,5 +87,27 @@ After building, run the shell:
 ./sea_shell
 ```
 
-The shell will present a prompt (`>`) where you can enter commands. Currently supported commands:
-- `exit, quit, q`: Exits the shell
+### Example Commands
+
+- Change directory: `cd /path/to/directory`
+- Get help: `help`
+- Change color: `setclr blue` or `setclr 2`
+- Greet: `greet`
+- Exit: `exit` or `quit`
+
+## Known Issues
+
+- Some potential memory management issues
+- Limited error handling
+- Platform-specific behavior between POSIX and Windows
+
+## Future Improvements
+
+- Enhanced error handling
+- More robust memory management
+- Additional built-in commands
+- Improved cross-platform support
+
+## Contributing
+
+Contributions are welcome! Please submit pull requests or open issues on the project repository.

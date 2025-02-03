@@ -15,6 +15,8 @@ char *shl_read_line() {
   if (!buffer) {
     fprintf(stderr, "shl: allocation error\n");
     exit(EXIT_FAILURE);
+
+    return NULL;
   }
 
   while (1) {
@@ -32,17 +34,24 @@ char *shl_read_line() {
 
     if (position >= buffer_size) {
       buffer_size += SHL_TOK_BUFSIZE;
-      buffer = realloc(buffer, buffer_size);
+      char *temp = realloc(buffer, buffer_size);
 
-      if (!buffer) {
+      if (!temp) {
+        free(buffer);
         fprintf(stderr, "shl: allocation error\n");
         exit(EXIT_FAILURE);
       }
+
+      buffer = temp;
     }
   }
 }
 
 char **shl_split_line(char *line) {
+  if (line == NULL) {
+    return NULL;
+  }
+
   int buffer_size = SHL_TOK_ARR_BUFSIZE, position = 0;
   char **parsed_tokens = malloc(sizeof(char *) * buffer_size);
 
@@ -51,21 +60,30 @@ char **shl_split_line(char *line) {
   if (!parsed_tokens) {
     fprintf(stderr, "shl: allocation error\n");
     exit(EXIT_FAILURE);
+    return NULL;
   }
 
   token = strtok(line, SHL_TOK_ARR_DELIM);
   while (token != NULL) {
-    parsed_tokens[position] = token;
+    parsed_tokens[position] = strdup(token);
     position++;
 
     if (position >= buffer_size) {
       buffer_size += SHL_TOK_ARR_BUFSIZE;
-      parsed_tokens = realloc(parsed_tokens, sizeof(char *) * buffer_size);
+      char **temp = realloc(parsed_tokens, sizeof(char *) * buffer_size);
 
-      if (!parsed_tokens) {
+      if (!temp) {
+        for (size_t i = 0; i < position; i++) {
+          free(parsed_tokens[i]);
+        }
+
+        free(parsed_tokens);
         fprintf(stderr, "shl: allocation error\n");
         exit(EXIT_FAILURE);
+        return NULL;
       }
+
+      parsed_tokens = temp;
     }
 
     token = strtok(NULL, SHL_TOK_ARR_DELIM);

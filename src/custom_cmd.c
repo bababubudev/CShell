@@ -6,7 +6,7 @@
 #include "shl_init.h"
 #include "shl_utils.h"
 
-static const char *greet_commands[] = {"hello", "hi"};
+static const char *greet_commands[] = {"greet", "hello", "hi", NULL};
 
 static const shell_command_t custom_cmds[] = {
     {"clear", NULL, &shl_clear, "Clear screen"},
@@ -53,6 +53,11 @@ int shl_set_color(char **args) {
 }
 
 int shl_greet(char **args) {
+  if (args[1] != NULL) {
+    fprintf(stderr, "greet: too many arguments. Usage: greet\n");
+    return 1;
+  }
+
   printf("Hi! Welcome to Sea Shell.\n\n");
   return 1;
 }

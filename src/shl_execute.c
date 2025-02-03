@@ -1,5 +1,6 @@
 #include "shl_execute.h"
 
+#include <io.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -9,7 +10,8 @@
 #include "shl_utils.h"
 
 int shl_execute(char **args) {
-  if (args[0] == NULL) {
+  if (args[0] == NULL || args == NULL) {
+    fprintf(stderr, "Invalid command input\n");
     return 1;
   }
 
@@ -26,6 +28,11 @@ int shl_execute(char **args) {
   if (cmd_index != -1) {
     return custom_cmds[cmd_index].func(args);
   }
+
+  // if (access(args[0], X_OK) != 0) {
+  //   fprintf(stderr, "Command not found or not executable: %s\n", args[0]);
+  //   return 1;
+  // }
 
   return shl_launch(args);
 }

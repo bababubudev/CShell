@@ -38,9 +38,17 @@ int arr_includes(const char *input, const char **arr) {
 }
 
 int find_commands(const char *input, const shell_command_t *commands, int cmd_count) {
+  if (input == NULL || commands == NULL) {
+    return -1;
+  }
+
   for (int i = 0; i < cmd_count; i++) {
-    if (commands[i].call_names != NULL && arr_includes(input, commands[i].call_names) == 0) {
-      return i;
+    if (commands[i].call_names != NULL) {
+      int alt_index = arr_includes(input, commands[i].call_names);
+
+      if (alt_index != -1) {
+        return i;
+      }
     }
 
     if (strcmp(input, commands[i].name) == 0) {

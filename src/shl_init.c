@@ -29,9 +29,18 @@ int set_color(const char *color_input) {
   color_num = (int)strtol(color_input, &endptr, 10);
 
   if (*endptr == '\0' && color_num >= COLOR_DEFAULT && color_num <= COLOR_GREY) {
-    free(settings->color_code);
+    if (settings->color_code) {
+      free(settings->color_code);
+    }
+
     settings->current_color = (shell_color_t)color_num;
     settings->color_code = strdup(get_color_code((shell_color_t)color_num));
+
+    if (settings->color_code == NULL) {
+      fprintf(stderr, "Memory allocation failed for color code\n");
+      return 0;
+    }
+
     return 1;
   }
 
@@ -58,8 +67,18 @@ int set_color(const char *color_input) {
 
 int shl_init(void) {
   shell_settings_t *settings = get_shell_settings();
+
+  if (settings->color_code) {
+    free(settings->color_code);
+  }
+
   settings->current_color = COLOR_DEFAULT;
   settings->color_code = strdup(get_color_code(COLOR_DEFAULT));
+
+  if (settings->color_code == NULL) {
+    fprintf(stderr, "Memory allocation failed for color code\n");
+    return 0;
+  }
 
   clear_command();
   printf("Simple Shell (shl) - Type 'help' for commands\n\n");
@@ -71,8 +90,18 @@ shell_settings_t *get_shell_settings(void) {
 }
 
 void shl_reset_settings(void) {
-  shell_settings.show_directory = 1;
-  free(shell_settings.color_code);
-  shell_settings.current_color = COLOR_DEFAULT;
-  shell_settings.color_code = strdup(get_color_code(COLOR_DEFAULT));
+  shell_settings_t *settings = &shell_settings;
+  settings->show_directory = 1;
+
+  if (settings->color_code) {
+    free(settings->color_code);
+    settings->color_code = NULL;
+  }
+
+  settings->current_color = COLOR_DEFAULT;
+  settings->color_code = strdup(get_color_code(COLOR_DEFAULT));
+
+  if (settings->color_code == NULL) {
+    fprintf(stderr, "Memory allocation failed during reset\n");
+  }
 }

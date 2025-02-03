@@ -5,7 +5,7 @@
 
 #include "shl_utils.h"
 
-static const char *exit_call_names[] = {"exit", "q", "quit", "lmao", NULL};
+static const char *exit_call_names[] = {"exit", "q", "quit", NULL};
 
 static const shell_command_t builtin_cmds[] = {{"cd", NULL, shl_cd, "Change directory"},
                                                {"exit", exit_call_names, shl_exit, "Exit the shell"},
