@@ -3,12 +3,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "shl_utils.h"
+
 static const char *exit_call_names[] = {"exit", "q", "quit", "lmao", NULL};
 
-static const shell_command_t builtin_cmds[] = {
-    {"cd", NULL, shl_cd, "Change directory"},
-    {"exit", exit_call_names, shl_exit, "Exit the shell"},
-    {NULL, NULL, NULL, NULL}};
+static const shell_command_t builtin_cmds[] = {{"cd", NULL, shl_cd, "Change directory"},
+                                               {"exit", exit_call_names, shl_exit, "Exit the shell"},
+                                               {NULL, NULL, NULL, NULL}};
 
 int builtin_cmd_amt(void) {
   int count = 0;
@@ -38,5 +39,6 @@ int shl_cd(char **args) {
 }
 
 int shl_exit(char **args) {
+  clear_command();
   return 0;
 }
