@@ -3,14 +3,15 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static const char *exit_call_names[] = {"exit", "q", "quit", "lmao", NULL};
+
 static const shell_command_t builtin_cmds[] = {
-    {"cd", shl_cd, "Change directory"},
-    {"exit", shl_exit, "Exit the shell"},
-    {NULL, NULL, NULL}};
+    {"cd", NULL, shl_cd, "Change directory"},
+    {"exit", exit_call_names, shl_exit, "Exit the shell"},
+    {NULL, NULL, NULL, NULL}};
 
 int builtin_cmd_amt(void) {
   int count = 0;
-
   while (builtin_cmds[count].name != NULL) {
     count++;
   }
@@ -28,7 +29,8 @@ int shl_cd(char **args) {
   }
   else {
     if (chdir(args[1]) != 0) {
-      perror("lsh");
+      perror("shl");
+      return 1;
     }
   }
 

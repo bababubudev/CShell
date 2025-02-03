@@ -19,6 +19,7 @@ int shl_launch(char **args) {
     // CHILD PROCESS
     if (execvp(args[0], args) == -1) {
       perror("shl");
+      _exit(EXIT_FAILURE);
     }
   }
   else {

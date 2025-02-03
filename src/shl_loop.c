@@ -13,15 +13,11 @@ void shl_loop(void) {
   char **args;
   int status = 1;
 
+  clear_command();
+
   do {
     printf("> ");
     line = shl_read_line();
-
-    if (is_exit_command(line) == 0) {
-      status = 0;
-      break;
-    }
-
     args = shl_split_line(line);
     status = shl_execute(args);
 

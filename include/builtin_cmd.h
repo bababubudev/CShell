@@ -5,6 +5,7 @@ typedef int (*command_func)(char **);
 
 typedef struct {
   const char *name;
+  const char **call_names;
   command_func func;
   const char *description;
 } shell_command_t;
