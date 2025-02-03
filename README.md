@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sea Shell is a basic shell program that provides a command-line interface for executing commands. It is built using C and uses CMake as its build system.
+C Shell is a basic shell program that provides a command-line interface for executing commands. It is built using C and uses CMake as its build system.
 
 ## Building
 
