@@ -4,6 +4,11 @@
 
 C Shell is a lightweight, custom-built shell program implemented in C. It provides a simple command-line interface with built-in and custom commands, designed to be a learning project demonstrating shell implementation techniques.
 
+## Demo
+
+![seashelldemo](https://github.com/user-attachments/assets/08617139-626f-42cf-9126-acc7215b7f55)
+
+
 ## Features
 
 - Custom command execution
